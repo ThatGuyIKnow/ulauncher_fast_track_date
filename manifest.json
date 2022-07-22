@@ -1,0 +1,26 @@
+{
+    "required_api_version": "^2.0.0",
+    "name": "Fast Track Tracker",
+    "description": "A tracker for the processing time on the Fast Track list",
+    "developer_name": "Oliver Jorgensen",
+    "icon": "images/icon.png",
+    "options": {
+      "query_debounce": 0.1
+    },
+    "preferences": [
+      {
+        "id": "kw",
+        "type": "keyword",
+        "name": "Fast Track Keyword",
+        "description": "Show Fast Track times",
+        "default_value": "ft"
+      },
+      {
+        "id": "url",
+        "type": "input",
+        "name": "Fast Track Keyword",
+        "description": "Show Fast Track times",
+        "default_value": "https://www.su.dk/udland/status-og-kontakt/"
+      }
+    ]
+  }
