@@ -1,5 +1,5 @@
 
-from .FastTrackCollection import FastTrackCollection
+from .FastTrackCollection import FastTrackCollection, FastTrackResult
 
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
@@ -9,8 +9,7 @@ from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 import re
 import requests
 from datetime import datetime
-from bs4 import BeautifulSoup
-from typing import List
+from bs4 import BeautifulSoup, ResultSet
 
 class KeywordQueryEventListener(EventListener):
     def __init__(self):
@@ -21,7 +20,7 @@ class KeywordQueryEventListener(EventListener):
         fast_track_results = self.get_fast_track_table(url)
 
         items = []
-        for description, date in fast_track_results.results:
+        for date, description in fast_track_results:
             items.append(ExtensionResultItem(icon='images/icon.png',
                                              name=date,
                                              description=description,
@@ -54,9 +53,10 @@ class KeywordQueryEventListener(EventListener):
 
         return FastTrackCollection(query_date, results)
 
-    def sanitise(self, entry):
+    def sanitise(self, entry: ResultSet) -> FastTrackResult:
         # Extract all the text from each table cell
         texts = [cell.text for cell in entry.find_all("td")]
         # Replace all special characters with spaces
         expression = "\W+"
-        return tuple([re.sub(expression, ' ', text).strip() for text in texts])
+        desciption, date = (re.sub(expression, ' ', text).strip() for text in texts)
+        return FastTrackResult(date=date, description=desciption)
