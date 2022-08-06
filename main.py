@@ -51,7 +51,7 @@ def get_fast_track_table(url):
             data = json.load(file)
 
             query_date = datetime.strptime(data['query_date'])
-            if query_date < datetime.today():
+            if query_date < datetime.today().date():
                 query_result = query_fast_track_table(url)
                 updated_data = {'query_date': str(datetime.today().date()), 'result': query_result}
                 json.dump(updated_data, file)
